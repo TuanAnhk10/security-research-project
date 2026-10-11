@@ -14,24 +14,24 @@ To eliminate all six vulnerabilities (`FIND-01` through `FIND-06`) at their arch
 
 ```mermaid
 flowchart LR
-    Client(["👤 Authenticated Student"])
+    Client(["Authenticated Student"])
     subgraph Edge["Cloudflare Edge"]
-        Worker["Signed Media Worker<br/>(Validates Short-Lived HMAC/JWT)"]
+        Worker["Signed Media Worker\nValidates Short-Lived HMAC/JWT"]
     end
     subgraph Core["Spring Boot 3.2 Core API"]
-        KeyEndpoint["GET /api/shaka/key/{videoId}<br/>🔒 Verifies JWT + Course Enrollment"]
-        StatusEndpoint["GET /api/shaka/status/{videoId}<br/>🔒 Role: ADMIN/TEACHER (No Key in DTO)"]
+        KeyEndpoint["GET /api/shaka/key/videoId\nLOCKED — Verifies JWT + Enrollment"]
+        StatusEndpoint["GET /api/shaka/status/videoId\nLOCKED — ADMIN/TEACHER Only"]
     end
     subgraph PrivateNet["Private VPC / mTLS Only"]
         Shaka["Shaka Transcoder"]
         R2[("Private Cloudflare R2 Bucket")]
     end
 
-    Client -->|1. Fetches #EXT-X-KEY (16B binary)| KeyEndpoint
-    Client -->|2. Fetches Signed .m3u8 & .ts| Worker
-    Worker -->|S3v4 Internal Binding| R2
-    KeyEndpoint -->|Internal mTLS| Shaka
-    StatusEndpoint -->|Internal mTLS| Shaka
+    Client -->|"1. Fetches EXT-X-KEY 16B binary"| KeyEndpoint
+    Client -->|"2. Fetches Signed m3u8 and ts"| Worker
+    Worker -->|"S3v4 Internal Binding"| R2
+    KeyEndpoint -->|"Internal mTLS"| Shaka
+    StatusEndpoint -->|"Internal mTLS"| Shaka
 ```
 
 ---

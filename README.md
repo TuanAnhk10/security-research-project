@@ -27,37 +27,37 @@ This repository documents an end-to-end security research engagement demonstrati
 
 ```mermaid
 flowchart TD
-    subgraph Client["1. Client-Side Bundle & RSC Recon"]
-        Chunks["Turbopack JS Chunks (72+ bundles)"]
-        Polyfill["Pure-JS WebCrypto AES-CBC Polyfill"]
-        RSC["Next.js RSC Flight Stream (Header: RSC: 1)"]
+    subgraph Client["1. Client-Side Bundle and RSC Recon"]
+        Chunks["Turbopack JS Chunks\n72+ bundles"]
+        Polyfill["Pure-JS WebCrypto\nAES-CBC Polyfill"]
+        RSC["Next.js RSC Flight Stream\nHeader RSC: 1"]
     end
 
-    subgraph CoreLMS["2. Core LMS API (lms.edtech-target.example)"]
-        TokenAPI["GET /api/shaka/token?videoId={id}<br/>🔒 HTTP 401 Unauthorized"]
-        StatusAPI["GET /api/shaka/status/{videoId}<br/>🔓 HTTP 200 OK (Leaks AES-128 Key & IV!)"]
-        DocAPI["GET /api/documents/{docId}/file<br/>🔓 HTTP 200 OK (BOLA on Active & Replaced PDFs)"]
-        OrderAPI["GET /api/book-orders/{uuid}/check-payment<br/>🔓 Unauthenticated UUID DB Lookup"]
+    subgraph CoreLMS["2. Core LMS API"]
+        TokenAPI["GET /api/shaka/token\nLOCKED — HTTP 401"]
+        StatusAPI["GET /api/shaka/status/vid\nOPEN — Leaks AES Key+IV"]
+        DocAPI["GET /api/documents/id/file\nOPEN — BOLA on PDFs"]
+        OrderAPI["GET /api/book-orders/uuid\nOPEN — UUID DB Lookup"]
     end
 
-    subgraph ShakaCluster["3. Transcoding & Key Cluster (shaka.media-core.example)"]
-        MediaCatalog["GET /api/media<br/>🔓 HTTP 200 OK (Dumps All 312 Videos + AES-128 Keys)"]
-        AnonJWT["GET /api/auth/token<br/>🔓 HTTP 200 OK (Mints Unbound Playback JWT)"]
-        UploadInit["POST /api/upload/init<br/>🔓 HTTP 200 OK (Unauthenticated Chunked Upload)"]
+    subgraph ShakaCluster["3. Transcoding and Key Cluster"]
+        MediaCatalog["GET /api/media\nOPEN — Dumps 312 Videos+Keys"]
+        AnonJWT["GET /api/auth/token\nOPEN — Mints Unbound JWT"]
+        UploadInit["POST /api/upload/init\nOPEN — Unauth Chunked Upload"]
     end
 
-    subgraph EdgeStorage["4. Object Storage & CDN (media & r2.storage-edge.example)"]
-        MediaCDN["media.storage-edge.example/hls/{id}/master.m3u8?token=JWT"]
-        R2Bucket["r2.storage-edge.example/hls/{id}/master.m3u8<br/>🔓 HTTP 200 OK (Public Bucket Bypass — No JWT Required!)"]
+    subgraph EdgeStorage["4. Object Storage and CDN"]
+        MediaCDN["media CDN\nm3u8 with JWT gate"]
+        R2Bucket["r2 Public Bucket\nOPEN — No JWT Required"]
     end
 
-    Chunks -->|AST/Regex Dissection| StatusAPI
-    Chunks -->|Cross-Origin Pivot| MediaCatalog
-    RSC -->|Leaks 310 Syllabus UUIDs & DRAFT Books| DocAPI
-    StatusAPI -->|16-Byte AES Key + Hex IV| Polyfill
-    MediaCatalog -->|Full 312 Video Catalog + Keys| Polyfill
+    Chunks -->|"AST/Regex Dissection"| StatusAPI
+    Chunks -->|"Cross-Origin Pivot"| MediaCatalog
+    RSC -->|"Leaks 310 UUIDs + DRAFT Books"| DocAPI
+    StatusAPI -->|"16-Byte AES Key + Hex IV"| Polyfill
+    MediaCatalog -->|"Full 312 Video Catalog + Keys"| Polyfill
     AnonJWT --> MediaCDN
-    R2Bucket -->|Raw Encrypted 1080p .ts Segments| Polyfill
+    R2Bucket -->|"Raw Encrypted 1080p .ts Segments"| Polyfill
 ```
 
 ---

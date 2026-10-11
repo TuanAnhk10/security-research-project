@@ -10,10 +10,10 @@
 sequenceDiagram
     autonumber
     actor Researcher as Security Researcher
-    participant LMS as lms.edtech-target.example<br/>(Next.js + Spring Boot)
-    participant Shaka as shaka.media-core.example<br/>(Transcoding & Key API)
-    participant R2 as r2.storage-edge.example<br/>(Public Cloudflare R2)
-    participant Decryptor as Local AES-128-CBC<br/>HLS Decryptor
+    participant LMS as LMS (Next.js + Spring Boot)
+    participant Shaka as Shaka Transcoder API
+    participant R2 as R2 Public Bucket
+    participant Decryptor as Local AES-128-CBC Decryptor
 
     Researcher->>LMS: GET /_next/static/chunks/2tv67cm3-xz1_.js
     LMS-->>Researcher: Returns Player JS (reveals /api/shaka/status/{id}, shaka.* & r2.* hosts)

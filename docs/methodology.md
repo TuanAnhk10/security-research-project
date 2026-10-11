@@ -10,11 +10,11 @@ Modern single-page and hybrid server-rendered applications (such as **Next.js 14
 
 ```mermaid
 flowchart LR
-    P1["Phase 1<br/>JS Bundle & AST<br/>Reconnaissance"] --> P2["Phase 2<br/>Next.js RSC Flight<br/>Stream Dissection"]
-    P2 --> P3["Phase 3<br/>Cross-Origin<br/>Infra Pivoting"]
-    P3 --> P4["Phase 4<br/>Differential BOLA<br/>Boundary Probing"]
-    P4 --> P5["Phase 5<br/>HLS AES-128-CBC<br/>DRM Cryptanalysis"]
-    P5 --> P6["Phase 6<br/>In-Memory Frame<br/>Classification"]
+    P1["Phase 1\nJS Bundle and AST\nReconnaissance"] --> P2["Phase 2\nNext.js RSC Flight\nStream Dissection"]
+    P2 --> P3["Phase 3\nCross-Origin\nInfra Pivoting"]
+    P3 --> P4["Phase 4\nDifferential BOLA\nBoundary Probing"]
+    P4 --> P5["Phase 5\nHLS AES-128-CBC\nDRM Cryptanalysis"]
+    P5 --> P6["Phase 6\nIn-Memory Frame\nClassification"]
 ```
 
 ---

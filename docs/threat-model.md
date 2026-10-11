@@ -24,41 +24,41 @@ The target platform is composed of four distinct runtime tiers operating across 
 
 ```mermaid
 flowchart TB
-    Actor(["👤 Unauthenticated Internet User"])
+    Actor(["Unauthenticated Internet User"])
 
-    subgraph TB1["Trust Boundary 1: Public Edge & SSR Layer"]
-        NextSSR["Next.js App Router (RSC Flight Serialization)"]
-        MediaWorker["Media CDN Proxy (media.storage-edge.example)"]
+    subgraph TB1["Trust Boundary 1: Public Edge and SSR Layer"]
+        NextSSR["Next.js App Router\nRSC Flight Serialization"]
+        MediaWorker["Media CDN Proxy"]
     end
 
-    subgraph TB2["Trust Boundary 2: Core Business Logic (Spring Boot 3.2)"]
-        SpringSec["JwtAuthenticationFilter & SecurityFilterChain"]
-        TokenCtrl["ShakaTokenController (/api/shaka/token) 🔒"]
-        StatusCtrl["ShakaStatusController (/api/shaka/status/{id}) ⚠️ PermitAll"]
-        DocCtrl["DocumentController (/api/documents/{id}/file) ⚠️ PermitAll"]
-        OrderCtrl["OrderPaymentController (/api/*-orders/*/check-payment) ⚠️ PermitAll"]
+    subgraph TB2["Trust Boundary 2: Core Business Logic — Spring Boot 3.2"]
+        SpringSec["JwtAuthenticationFilter\nSecurityFilterChain"]
+        TokenCtrl["ShakaTokenController\n/api/shaka/token — LOCKED"]
+        StatusCtrl["ShakaStatusController\n/api/shaka/status/id — OPEN"]
+        DocCtrl["DocumentController\n/api/documents/id/file — OPEN"]
+        OrderCtrl["OrderPaymentController\n/api/orders/check-payment — OPEN"]
     end
 
-    subgraph TB3["Trust Boundary 3: Internal Media Pipeline & Storage"]
-        ShakaSvc["Shaka Transcoder API (shaka.media-core.example) ❌ Exposed to Internet"]
-        R2Bucket[("Cloudflare R2 Bucket (r2.storage-edge.example) ❌ Public Read Enabled")]
+    subgraph TB3["Trust Boundary 3: Internal Media Pipeline and Storage"]
+        ShakaSvc["Shaka Transcoder API\nEXPOSED to Internet"]
+        R2Bucket[("Cloudflare R2 Bucket\nPublic Read Enabled")]
         PG[("PostgreSQL Database")]
     end
 
-    Actor -->|1. RSC: 1 Request| NextSSR
-    Actor -->|2. REST API Calls| SpringSec
+    Actor -->|"1. RSC: 1 Request"| NextSSR
+    Actor -->|"2. REST API Calls"| SpringSec
     SpringSec --> TokenCtrl
     SpringSec --> StatusCtrl
     SpringSec --> DocCtrl
     SpringSec --> OrderCtrl
-    StatusCtrl -->|Proxy Fetch| ShakaSvc
+    StatusCtrl -->|"Proxy Fetch"| ShakaSvc
     DocCtrl --> PG
     OrderCtrl --> PG
 
-    Actor -.->|3. Direct Unauthenticated Access!| ShakaSvc
-    Actor -.->|4. Direct Bucket Access Bypassing MediaWorker!| R2Bucket
-    ShakaSvc -->|Writes HLS + Keys| R2Bucket
-    MediaWorker -->|Reads HLS| R2Bucket
+    Actor -.->|"3. Direct Unauthenticated Access"| ShakaSvc
+    Actor -.->|"4. Direct Bucket Access Bypass"| R2Bucket
+    ShakaSvc -->|"Writes HLS + Keys"| R2Bucket
+    MediaWorker -->|"Reads HLS"| R2Bucket
 ```
 
 ---
