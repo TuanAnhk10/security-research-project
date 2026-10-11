@@ -1,0 +1,20 @@
+[project]
+name = "edtech-hls-drm-security-research"
+version = "1.0.0"
+description = "End-to-End Security Assessment Case Study: Next.js RSC, Spring Boot BOLA, and HLS AES-128 DRM Bypass"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "MonkeyTuan (@TuanAnhk10)" }
+]
+dependencies = [
+    "requests>=2.31.0",
+    "pycryptodome>=3.20.0",
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-v --tb=short"

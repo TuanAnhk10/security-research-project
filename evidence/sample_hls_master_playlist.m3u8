@@ -1,0 +1,24 @@
+# --- Request 1: Direct R2 Master Playlist (No JWT Required) ---
+# GET https://r2.storage-edge.example/hls/07297fe3-7b2b-42cc-86b8-749096b87c34/master.m3u8
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=185420,RESOLUTION=426x240,CODECS="avc1.640015,mp4a.40.2"
+video_240p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=390112,RESOLUTION=1280x720,CODECS="avc1.64001f,mp4a.40.2"
+video_720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=600297,RESOLUTION=1920x1080,CODECS="avc1.640028,mp4a.40.2"
+video_1080p.m3u8
+
+# --- Request 2: Direct R2 1080p Variant Playlist ---
+# GET https://r2.storage-edge.example/hls/07297fe3-7b2b-42cc-86b8-749096b87c34/video_1080p.m3u8
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:4
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXT-X-KEY:METHOD=AES-128,URI="https://shaka.media-core.example/api/keys/07297fe3-7b2b-42cc-86b8-749096b87c34",IV=0x6a98f2160204d7b03603c8aa79416ff5
+#EXTINF:4.000000,
+parts/w0/seg_1080p_w0_0000.ts
+#EXTINF:4.000000,
+parts/w0/seg_1080p_w0_0001.ts
+#EXT-X-ENDLIST

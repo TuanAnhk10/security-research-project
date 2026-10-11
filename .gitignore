@@ -1,0 +1,29 @@
+# Python byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Sensitive / Live Assessment Artifacts (NEVER COMMIT)
+*_live.json
+*.mp4
+*.ts
+*.pdf
+*.jpg
+*.png
+!evidence/*.json
+!evidence/*.txt
+!evidence/*.m3u8
+
+# OS / IDE metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,42 @@
+{
+  "endpoint_tested": "GET https://lms.edtech-target.example/api/shaka/status/07297fe3-7b2b-42cc-86b8-749096b87c34",
+  "sibling_auth_check": {
+    "endpoint": "GET https://lms.edtech-target.example/api/shaka/token?videoId=07297fe3-7b2b-42cc-86b8-749096b87c34",
+    "http_status": 401,
+    "response": {
+      "error": "Authentication required"
+    }
+  },
+  "unauthenticated_status_response": {
+    "http_status": 200,
+    "body": {
+      "id": "07297fe3-7b2b-42cc-86b8-749096b87c34",
+      "originalName": "2K9 - DOT 1 - IP01 - GIAI DAP CHUONG 3.mp4",
+      "status": "ready",
+      "encryptionKey": "FbxOATKDyZC9bSvK6P2CAA==",
+      "encryptionKeyId": "6a98f2160204d7b03603c8aa79416ff5",
+      "createdAt": "2026-10-10T17:48:45.726Z"
+    }
+  },
+  "upstream_media_catalog_summary": {
+    "endpoint": "GET https://shaka.media-core.example/api/media",
+    "http_status": 200,
+    "total_records_exposed": 312,
+    "sample_records": [
+      {
+        "id": "07297fe3-7b2b-42cc-86b8-749096b87c34",
+        "originalName": "2K9 - DOT 1 - IP01 - GIAI DAP CHUONG 3.mp4",
+        "status": "ready",
+        "encryptionKey": "FbxOATKDyZC9bSvK6P2CAA==",
+        "encryptionKeyId": "6a98f2160204d7b03603c8aa79416ff5"
+      },
+      {
+        "id": "39a33ad6-d535-4ce4-a115-b220d03b021f",
+        "originalName": "DOT 2_CHU DE 6 DO THI DAO DONG LT.mp4",
+        "status": "ready",
+        "encryptionKey": "jZY9WjX++2BDXOM+xNjOsQ==",
+        "encryptionKeyId": "5d9775b0a605fe874e4ef928b9fe246e"
+      }
+    ]
+  }
+}

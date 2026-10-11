@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Content-Type: text/x-component; charset=utf-8
+Vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch
+
+0:["$@1",["development",null]]
+1:{"courseId":"c6d019de-a5f4-478c-9134-ba3db7b3e83b","title":"2K10 - KHOA ON GIUA KI & CUOI KI - VAT LY 11","freeRequiresLogin":true,"syllabusNodes":[{"id":"a1000000-0000-0000-0000-000000000001","level":"Hoc phan","name":"Chuong 1: Dao dong co"},{"id":"c1000000-0000-0000-0000-000000000001","level":"Bai hoc","name":"Chu de 1: Dao dong dieu hoa"}],"draftBooks":[{"id":"a0000000-0000-0000-0000-000000000001","slug":"dstln","title":"2027 CAU HOI DUNG SAI VAT LI","status":"DRAFT"}]}
